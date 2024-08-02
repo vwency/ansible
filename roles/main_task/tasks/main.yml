@@ -1,0 +1,55 @@
+- name: install kernel headers
+  ansible.builtin.import_tasks: pre-install/kernel_headers.yml
+
+- name: Create dir if not exist and give owner postgresql
+  tags: [job1, job6]
+  ansible.builtin.import_tasks: pre-install/dirs.yml
+
+- name: Install_python
+  ansible.builtin.import_tasks: install/python_install.yml
+  tags: [python_ver, job1]
+
+- name: Install_psql  
+  ansible.builtin.import_tasks: install/install_psql.yml
+  tags: [job1]
+
+- name: Install compilers
+  tags: [job3]
+  ansible.builtin.import_tasks: install/install_compilers.yml
+
+- name: Init psql
+  tags: [job1]
+  ansible.builtin.import_tasks: install/psql_init.yml
+
+- name: Psql configure
+  tags: [job1]
+  ansible.builtin.import_tasks: install/psql_configure.yml
+
+- name: Psql status check
+  tags: [job12]
+  ansible.builtin.import_tasks: services/psql_check.yml
+  when: ansible_check_mode
+
+- name: Create database
+  tags: [job5, job8, job4]
+  ansible.builtin.import_tasks: db/create_db.yml
+
+- name: Sql queries
+  tags: [job5, job8]
+  ansible.builtin.import_tasks: db/queries.yml
+
+- name: Save into file
+  tags: [job8]
+  ansible.builtin.import_tasks: saving/save_file.yml
+
+- name: Save into vault
+  tags: [job5]
+  ansible.builtin.import_tasks: saving/save_vault.yml
+
+- name: Disable firewalld and iptables if existe
+  tags: [job7]
+  ansible.builtin.import_tasks: services/frwld&iptbls.yml
+
+- name: Move /tmp/t10txt01.txt to /data/test/t.txt
+  tags: [job10]
+  ansible.builtin.import_tasks: saving/move_file.yml

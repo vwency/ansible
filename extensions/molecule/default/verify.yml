@@ -1,0 +1,8 @@
+- name: Verify
+  hosts: preprod-study-704
+  become: true
+  tasks:
+    - name: Initialize role without actually running it
+      ansible.builtin.include_role:
+        name: main_task
+        tasks_from: main.yml

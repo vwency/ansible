@@ -1,0 +1,9 @@
+- name: postgres checking
+  debug:
+    msg: "checking postgres status"
+  changed_when: true
+  notify:
+    - get psql16 status
+
+- name: "Flush all handlers defined in this playbook"
+  ansible.builtin.meta: flush_handlers

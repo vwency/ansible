@@ -1,0 +1,59 @@
+- name: Gathering facts
+  ansible.builtin.package_facts:
+
+- name: versions_check
+  block:
+    - name: get python version
+      ansible.builtin.set_fact:
+        python_version: "{{ ansible_facts.python_version }}"
+
+    - name: version test
+      assert:
+        that:
+          - "'{{ python_version }}' is version_compare('{{ python_version3 }}', '>=') "
+          - "'{{ python_version }}' is version_compare('{{ 3.12 }}', '<') "
+        fail_msg: "{{ python_version }}"
+        success_msg: "{{ python_version }}"
+
+  rescue:
+    - name: check if python existed
+      block:
+        - name: check if pckg existed
+          ansible.builtin.assert:
+            that:
+              - ansible_facts.packages['{{ python_alias }}'] is defined
+            fail_msg: "python_version {{ python_version3 }} not existed"
+            success_msg: "python_version {{ python_version3 }} existed"
+
+        - name: Select python as python
+          community.general.alternatives:
+            name: python
+            path: "/usr/bin/python{{ python_version3 }}"
+            link: /usr/bin/python
+            state: selected
+
+        - name: Select python as python3
+          community.general.alternatives:
+            name: python3
+            path: "/usr/bin/python{{ python_version3 }}"
+            link: /usr/bin/python3
+            state: selected
+
+      rescue:
+        - name: Install python
+          ansible.builtin.dnf:
+            name: "{{ python_alias }}"
+            state: present
+          become: true
+
+        - name: Select python as python
+          community.general.alternatives:
+            name: python
+            path: "/usr/bin/python{{ python_version3 }}"
+            link: /usr/bin/python
+
+        - name: Select python as python3
+          community.general.alternatives:
+            name: python
+            path: "/usr/bin/python{{ python_version3 }}"
+            link: /usr/bin/python3

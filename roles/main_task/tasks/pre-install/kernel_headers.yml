@@ -1,0 +1,17 @@
+- name: reconfiguration
+  ansible.builtin.template:
+    src: rocky_conf/Rocky-Devel_mod.j2
+    dest: /etc/yum.repos.d/Rocky-Devel.repo
+  become: true
+
+- name: Install kernel headers
+  ansible.builtin.dnf:
+    name: kernel-headers
+    state: present
+  become: true
+
+- name: reconfiguration
+  ansible.builtin.template:
+    src: rocky_conf/Rocky-Devel.j2
+    dest: /etc/yum.repos.d/Rocky-Devel.repo
+  become: true

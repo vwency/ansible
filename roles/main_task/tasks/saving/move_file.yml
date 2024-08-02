@@ -1,0 +1,12 @@
+- name: check dir existed
+  ansible.builtin.file:
+    path: /data/test/
+    state: directory
+
+- name: move file
+  copy:
+    src: /tmp/t10txt01.txt
+    dest: /data/test/t.txt
+    remote_src: yes
+  become_method: sudo
+  become: true

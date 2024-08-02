@@ -1,0 +1,26 @@
+- name: configure pg_hba.conf
+  template:
+    src: "pg_configs/pg_hba.j2"
+    dest: "{{ postgres_data }}/pg_hba.conf"
+    owner: postgres
+  become: true
+
+- name: configure postgresql.conf
+  template:
+    src: "pg_configs/postgresql.j2"
+    dest: "{{ postgres_data }}/postgresql.conf"
+    owner: postgres
+  become: true
+
+- name: configure pg_ident.conf
+  template:
+    src: "pg_configs/pg_ident.j2"
+    dest: "{{ postgres_data }}/pg_ident.conf"
+    owner: postgres
+  become: true
+  changed_when: true
+  notify:
+    - restart postgres
+
+- name: "Flush all handlers defined in this playbook"
+  ansible.builtin.meta: flush_handlers

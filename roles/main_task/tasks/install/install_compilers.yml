@@ -1,0 +1,20 @@
+- name: install garbage
+  ansible.builtin.dnf:
+    name: >-
+      {{
+        item
+      }}
+  loop: >-
+    {{ compilers }}
+  become: true
+
+- name: install pypi packages
+  ansible.builtin.pip:
+    name: >-
+      {{
+        item
+      }}
+    executable: pip3
+
+  loop: >-
+    {{ pypi_pckg }}

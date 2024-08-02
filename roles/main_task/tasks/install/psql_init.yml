@@ -1,0 +1,24 @@
+---
+- name: configure postgresql-16.service
+  ansible.builtin.template:
+    src:  services/postgresql-16.j2
+    dest: /etc/systemd/system/postgresql-16.service.d.override
+  become: true
+  changed_when: true       # sudo PGSETUP_INITDB_OPTIONS="-D /data/pgdata/" /usr/pgsql-16/bin/postgresql-16-setup initdb
+
+- name: initdb  
+  ansible.builtin.shell:
+    cmd: /usr/pgsql-16/bin/postgresql-16-setup initdb
+  become_method: sudo
+  become: true
+  ignore_errors: true
+  
+- name: reload postgresql
+  debug:
+    msg: "postgres reloading..."
+  changed_when: true
+  notify:
+    - postgres_reload # restart with relaod systemd daemon
+
+- name: "Flush all handlers defined in this playbook"
+  ansible.builtin.meta: flush_handlers

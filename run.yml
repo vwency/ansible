@@ -1,0 +1,8 @@
+---
+- name: Start ansible
+  gather_facts: true
+  hosts: preprod-study-ansible-704
+  become: true
+
+  roles:
+    - main_task

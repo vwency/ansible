@@ -1,0 +1,34 @@
+- name: Insert data
+  community.postgresql.postgresql_query:
+    db: >-
+      {{ db_name }}
+    query:
+      "INSERT INTO {{ table_name }} (i, n) VALUES (123, 'user1');"
+  become: true
+  become_user: postgres
+  register: output_query
+ # OUTPUT_QUERY OF TASK 4
+- name: output query response
+  debug:
+    msg: >-
+      {{ output_query }}
+
+- name: Select all data
+  community.postgresql.postgresql_query:
+    db: >-
+      {{ db_name }}
+    query: "SELECT {{ item }} FROM {{ table_name }}"
+  become: true
+  become_user: postgres
+  register: all_sql_data
+  loop: >-
+    {{ db_schema2 }}
+
+- name: Select user data
+  community.postgresql.postgresql_query:
+    db: >-
+      {{ db_name }}
+    query: "SELECT i, n FROM {{ table_name }}"
+  become: true
+  become_user: postgres
+  register: sql_data
