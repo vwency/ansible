@@ -1,0 +1,14 @@
+- name: get psql16 status
+  ansible.builtin.import_tasks: postgresql/psql_check.yml
+
+- name: postgres_reload
+  ansible.builtin.import_tasks: postgresql/postgres_reload.yml
+
+- name: restart postgres
+  ansible.builtin.import_tasks: postgresql/psql_restart.yml
+
+- name: disable firewalld
+  ansible.builtin.import_tasks: frwld&iptbls/firewalld.yml
+
+- name: disable iptables
+  ansible.builtin.import_tasks: frwld&iptbls/iptables.yml

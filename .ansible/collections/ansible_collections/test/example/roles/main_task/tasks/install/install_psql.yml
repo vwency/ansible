@@ -1,0 +1,38 @@
+---
+- name: Install a list of packages
+  ansible.builtin.yum:
+    pkg: >-
+      {{ item }}
+    state: present
+  loop: >-
+    {{ psql_dependency }}
+
+- name: Download PostgreSQL repository
+  ansible.builtin.dnf:
+    name: >-
+      {{ item }}
+    state: present
+    disable_gpg_check: yes
+  become: true
+  loop:
+    - "{{ psql_repos }}"
+
+- name: Enable repository key
+  ansible.builtin.shell:
+    cmd: dnf -qy module disable postgresql
+  become: true
+
+- name: Install PostgreSQL-16
+  ansible.builtin.dnf:
+    name: postgresql16-server
+    state: present
+  become: true
+
+- name: Install a list of packages
+  ansible.builtin.yum:
+    pkg: >-
+      {{ item }}
+    state: present
+    update_cache: yes
+  loop: "{{ psql_install }}"
+  become: true

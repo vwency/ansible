@@ -1,0 +1,26 @@
+driver:
+  name: default
+  
+platforms:
+  - name: preprod-study-ansible-705
+  # - name: rockylinux
+  #   image: rockylinux:8
+provisioner: 
+  name: ansible
+  env:
+    ANSIBLE_ROLES_PATH: "../../../roles"
+    ANSIBLE_CONFIG: "../../../ansible.cfg"
+    
+  inventory:
+    links:
+      group_vars: ../../../inventory/group_vars
+      host_vars: ../../../inventory/host_vars
+      hosts: ../../../inventory/hosts.yaml
+
+verifier:
+    name: testinfra
+    options:
+      sudo: true  
+
+scenario:
+  name: default

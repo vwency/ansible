@@ -1,0 +1,13 @@
+---
+all:
+  children:
+    DB:
+      hosts:
+        "preprod-study-dba-701": { ansible_host:  }
+        "preprod-study-dba-702": { ansible_host:  }
+        "preprod-study-dba-703": { ansible_host: }
+    ANSIBLE:
+      hosts:
+        "preprod-study-ansible-704": { ansible_host: }
+        "preprod-study-ansible-705": { ansible_host: }
+        "preprod-study-ansible-706": { ansible_host: }
