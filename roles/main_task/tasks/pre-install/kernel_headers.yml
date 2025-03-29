@@ -1,4 +1,4 @@
-- name: reconfiguration
+- name: Reconfiguration
   ansible.builtin.copy:
     src: rocky_conf/Rocky-Devel_mod.conf
     dest: /etc/yum.repos.d/Rocky-Devel.repo
@@ -10,7 +10,7 @@
     state: present
   become: true
 
-- name: reconfiguration
+- name: Reconfiguration
   ansible.builtin.copy:
     src: rocky_conf/Rocky-Devel.conf
     dest: /etc/yum.repos.d/Rocky-Devel.repo

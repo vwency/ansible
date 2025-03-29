@@ -7,6 +7,6 @@
   ansible.builtin.copy:
     src: /tmp/t10txt01.txt
     dest: /data/test/t.txt
-    remote_src: yes
+    remote_src: true
   become_method: sudo
   become: true

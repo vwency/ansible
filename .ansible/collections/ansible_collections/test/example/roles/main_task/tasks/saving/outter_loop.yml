@@ -1,8 +1,0 @@
-- name: Outter loop
-  ansible.builtin.set_fact:
-    sorted_result: "{{ sorted_result + [item.value] }}"
-  loop: >-
-    {{  outer_item  | 
-        dict2items  |
-        selectattr('key', 'match', 'query_all_results')
-    }}

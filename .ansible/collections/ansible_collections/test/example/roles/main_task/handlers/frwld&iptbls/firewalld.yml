@@ -1,8 +1,0 @@
-- name: disable firewalld
-  service:
-    name: firewalld
-    state: stopped
-  when: ansible_facts.packages.firewalld | default([]) | length > 0
-  ignore_errors: true
-  listen:
-    - "disable firewalld"

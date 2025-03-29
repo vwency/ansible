@@ -1,4 +1,3 @@
----
 - name: Install a list of packages
   ansible.builtin.yum:
     pkg: >-
@@ -12,7 +11,7 @@
     name: >-
       {{ item }}
     state: present
-    disable_gpg_check: yes
+    disable_gpg_check: true
   become: true
   loop:
     - "{{ psql_repos }}"
@@ -33,6 +32,6 @@
     pkg: >-
       {{ item }}
     state: present
-    update_cache: yes
+    update_cache: true
   loop: "{{ psql_install }}"
   become: true

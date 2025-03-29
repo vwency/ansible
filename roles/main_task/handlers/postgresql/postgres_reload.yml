@@ -4,7 +4,7 @@
       {{ postgresql_service }}
     state: restarted
     daemon-reload: true
-    enabled: yes
+    enabled: true
   register: postgres_logs
   ignore_errors: true
   become: true

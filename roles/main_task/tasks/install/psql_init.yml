@@ -1,18 +1,17 @@
----
 - name: Configure postgresql-16.service
   ansible.builtin.template:
-    src:  services/postgresql-16.j2
+    src: services/postgresql-16.j2
     dest: /etc/systemd/system/postgresql-16.service.d.override
   become: true
-  changed_when: true       # sudo PGSETUP_INITDB_OPTIONS="-D /data/pgdata/" /usr/pgsql-16/bin/postgresql-16-setup initdb
+  changed_when: true # sudo PGSETUP_INITDB_OPTIONS="-D /data/pgdata/" /usr/pgsql-16/bin/postgresql-16-setup initdb
 
-- name: Initdb  
+- name: Initdb
   ansible.builtin.shell:
     cmd: /usr/pgsql-16/bin/postgresql-16-setup initdb
   become_method: sudo
   become: true
   ignore_errors: true
-  
+
 - name: Reload postgresql
   ansible.builtin.debug:
     msg: "postgres reloading..."

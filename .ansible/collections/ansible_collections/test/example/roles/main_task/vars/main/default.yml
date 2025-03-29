@@ -1,5 +1,0 @@
----
-postgres_data: "/data/pgdata/"
-python_version3: "3.9"
-python_alias: "python39"
-postgresql_service: "postgresql-16"

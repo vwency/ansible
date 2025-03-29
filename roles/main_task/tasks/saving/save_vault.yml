@@ -9,14 +9,13 @@
 - name: Write/create a secret
   community.hashi_vault.vault_kv2_write:
     url: "{{ URL }}"
-    engine_mount_point: creds 
+    engine_mount_point: creds
     path: "postgresql/lessons/ansible"
     auth_method: token
-    token: "{{ login_data | 
-              community.hashi_vault.vault_login_token }}"
+    token: "{{ login_data |
+      community.hashi_vault.vault_login_token }}"
     data: >-
       {{
           sql_data.query_result[0]
       }}
   check_mode: true
-  
